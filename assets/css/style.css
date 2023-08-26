@@ -7,6 +7,7 @@ main {
     border: 5px black solid;
     width: 20px;
     height: 20px;
+    display: inline;
 }
 
 header {
@@ -17,8 +18,7 @@ header {
 }
 
 .time {
-    width: 2px;
-    height: 2px;
-    border: 5px black solid;
+    width: 150px;
+    height: 50px;
     float: right;
 }
