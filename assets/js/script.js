@@ -1,8 +1,17 @@
 const timeEl = document.querySelector(".time");
-
+const startQuizButton = document.getElementById("start");
 const bombEl = document.getElementById("bomb");
 
-let secondsLeft = 80;
+let secondsLeft = 999;
+let interval;
+
+startQuizButton.addEventListener("click", startQuiz);
+
+function startQuiz() {
+    startQuizButton.style.display = 'none';
+    quizContainer.style.display = 'block';
+    interval = setInterval(updateTimeer, 1000)
+}
 
 function setTime() {
  
@@ -22,6 +31,7 @@ function setTime() {
      timeEl.textContent = " ";
      const imgEl = document.createElement("img");
      imgEl.setAttribute("src", "assets/images/explosion.jpg");
+     imgEl.width = 500;
      bombEl.appendChild(imgEl);
   
     }
