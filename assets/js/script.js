@@ -1,6 +1,7 @@
 const timeEl = document.querySelector(".time");
 const startQuizButton = document.getElementById("start");
 const bombEl = document.getElementById("bomb");
+const quizContainer = document.getElementById("quiz");
 
 let secondsLeft = 999;
 let interval;
@@ -10,21 +11,20 @@ startQuizButton.addEventListener("click", startQuiz);
 function startQuiz() {
     startQuizButton.style.display = 'none';
     quizContainer.style.display = 'block';
-    interval = setInterval(updateTimeer, 1000)
+    interval = setInterval(updateTimer, 1000)
+
+    const container = document .querySelector(".container");
+    container.style.display = "none";
 }
 
-function setTime() {
- 
-    const timerInterval = setInterval(function() {
-      secondsLeft--;
-      timeEl.textContent = "Time: " + secondsLeft;
-  
-      if(secondsLeft === 0) {
-        clearInterval(timerInterval);
+function updateTimer() {
+    secondsLeft--;
+    timeEl.textContent = "Time: " + secondsLeft
+
+    if (secondsLeft === 0) {
+        clearInterval(interval);
         sendMessage();
-      }
-  
-    }, 1000);
+    }
   }
   
   function sendMessage() {
