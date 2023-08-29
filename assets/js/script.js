@@ -89,11 +89,22 @@ function showQuestion(questionIndex) {
 }
 
 function selectAnswer(isCorrect) {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-        showQuestion(currentQuestionIndex);
+    if (isCorrect) {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            showQuestion(currentQuestionIndex);
+        } else {
+            console.log("Quiz Completed!");
+        }
     } else {
-        console.log("Quiz completed!");
+        secondsLeft -= 10;
+
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            showQuestion(currentQuestionIndex);
+        } else {
+            console.log("Quiz Completed!");
+        }
     }
 }
 
