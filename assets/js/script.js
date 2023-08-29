@@ -4,9 +4,14 @@ const questionEl = document.getElementById("question");
 const answerButtons = document.querySelectorAll(".answer");
 const timeEl = document.querySelector(".time");
 const container = document.querySelector(".container");
+const endContainer = document.getElementById("end");
+const finalScoreEl = document.getElementById("final-score");
+const initialsForm = document.getElementById("initials-form");
+const initialsInput = document.getElementById("initials");
+
 
 let currentQuestionIndex = 0;
-let secondsLeft = 999;
+let secondsLeft = 80;
 let interval;
 
 const questions = [
@@ -94,7 +99,8 @@ function selectAnswer(isCorrect) {
         if (currentQuestionIndex < questions.length) {
             showQuestion(currentQuestionIndex);
         } else {
-            console.log("Quiz Completed!");
+            clearInterval(interval);
+            showEndScreen();
         }
     } else {
         secondsLeft -= 10;
@@ -103,7 +109,8 @@ function selectAnswer(isCorrect) {
         if (currentQuestionIndex < questions.length) {
             showQuestion(currentQuestionIndex);
         } else {
-            console.log("Quiz Completed!");
+            clearInterval(interval);
+            showEndScreen();
         }
     }
 }
@@ -114,7 +121,16 @@ function startCountdown() {
         secondsLeft--;        
         if (secondsLeft < 0) {
             clearInterval(interval);
-            console.log("Time's up!");
+            timeEl.textContent = "Time's up!";
+            showEndScreen();
         }
     }, 1000);
 }
+
+function showEndScreen() {
+    quizContainer.style.display = "none";
+    endContainer.style.display = "block";
+    finalScoreEl.textContent = secondsLeft;
+}
+
+initialsForm.addEventListener("submit", submitInitials);
