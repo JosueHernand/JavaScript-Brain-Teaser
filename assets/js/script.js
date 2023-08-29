@@ -1,57 +1,109 @@
-const timeEl = document.querySelector(".time");
-const startQuizButton = document.getElementById("start");
+const startButton = document.getElementById("commence");
 const quizContainer = document.getElementById("quiz");
-const bombEl = quizContainer.querySelector("#bomb");
+const questionEl = document.getElementById("question");
 const answerButtons = document.querySelectorAll(".answer");
+const timeEl = document.querySelector(".time");
+const container = document.querySelector(".container");
 
 let currentQuestionIndex = 0;
 let secondsLeft = 999;
 let interval;
 
-startQuizButton.addEventListener("click", function () {
-    startQuizButton.style.display = 'none';
-    const container = document.querySelector(".container");
-    container.style.display = "none";
-    interval = setInterval(updateTimer, 1000);
-    showQuestion(questionIds[currentQuestionIndex]);
-});
+const questions = [
+    {
+        question: "Commonly used data types DO Not Include: ",
+        answers: [
+            {text: 'Strings', correct:false },
+            {text: 'Booleans', correct:false },
+            {text: 'Alerts', correct:true },
+            {text: 'Numbers', correct:false },
+        ],
+     },
 
-function showQuestion(questionId) {
-    const allQuestions = document.querySelectorAll("#quiz > div");
-    for (let i = 0; i < allQuestions.length; i++) {
-        allQuestions[i].style.display = "none";
-    }
-    document.getElementById(questionId).style.display = "block";
+     {
+        question: "The condition in an if / else statement is enclosed with ______. ",
+        answers: [
+            {text: 'Quotes', correct:false },
+            {text: 'Curley Brackets', correct:false },
+            {text: 'Parenthesis', correct:true },
+            {text: 'Square Brackets', correct:false },
+        ],
+     },
+
+     {
+        question: "Arrays in JavaScript can be used to store ______. ",
+        answers: [
+            {text: 'Numbers and Strings', correct:false },
+            {text: 'Other Arrays', correct:false },
+            {text: 'Booleans', correct:false },
+            {text: 'All of The Above', correct:true },
+        ],
+     },
+
+     {
+        question: "String values must be enclosed within ____ when being assigned to variables.",
+        answers: [
+            {text: 'Commas', correct:false },
+            {text: 'Curley Brackets', correct:false },
+            {text: 'Quotes', correct:true },
+            {text: 'Parenthesis', correct:false },
+        ],
+     },
+
+     {
+        question: "A very useful tool used during development and debugging for printing content to the debugger is: ",
+        answers: [
+            {text: 'JavaScript', correct:false },
+            {text: 'Terminal/Bash', correct:false },
+            {text: 'For Loops', correct:false },
+            {text: 'Console.log', correct:true },
+        ],
+     },
+];
+
+startButton.addEventListener("click", startQuiz);
+
+function startQuiz() {
+    startButton.style.display = "none";
+    quizContainer.style.display = "block";
+    container.style.display = "none";
+    showQuestion(0);
+    startCountdown();
 }
 
-answerButtons.forEach(function(button) {
-    button.addEventListener("click", function() {
-        if (currentQuestionIndex < questionIds.length - 1) {
-            currentQuestionIndex++;
-            showQuestion(questionIds[currentQuestionIndex]);
-        }
+function showQuestion(questionIndex) {
+    questionEl.textContent = questions[questionIndex].question;
+    answerButtons.forEach(function(button, index) {
+        button.textContent = "";
+        button.style.display = "none";
+    });
+
+    questions[questionIndex].answers.forEach(function(answer, index) {
+        const button = answerButtons[index];
+        button.textContent = answer.text;
+        button.style.display = "block";
+        button.addEventListener("click", function() {
+            selectAnswer(answer.correct);
     });
 });
+}
 
-function updateTimer() {
-    secondsLeft--;
-    timeEl.textContent = "Time: " + secondsLeft;
-
-    if (secondsLeft === 0) {
-        clearInterval(interval);
-        sendMessage();
-        
-        if (currentQuestionIndex < questionIds.length - 1) {
-            currentQuestionIndex++;
-            showQuestion(questionIds[currentQuestionIndex]);
-        }
+function selectAnswer(isCorrect) {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion(currentQuestionIndex);
+    } else {
+        console.log("Quiz completed!");
     }
 }
-  
-function sendMessage() {
-    timeEl.textContent = " ";
-    const imgEl = document.createElement("img");
-    imgEl.setAttribute("src", "assets/images/explosion.jpg");
-    imgEl.width = 500;
-    bombEl.appendChild(imgEl);
+
+function startCountdown() {
+    interval = setInterval(function () {
+        timeEl.textContent = "Time: " + secondsLeft;       
+        secondsLeft--;        
+        if (secondsLeft < 0) {
+            clearInterval(interval);
+            console.log("Time's up!");
+        }
+    }, 1000);
 }
