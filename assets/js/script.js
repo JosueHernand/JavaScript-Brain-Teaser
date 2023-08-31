@@ -10,6 +10,7 @@ const initialsForm = document.getElementById("initials-form");
 const initialsInput = document.getElementById("initials");
 
 
+let lastFeedbackContainer = null
 let currentQuestionIndex = 0;
 let secondsLeft = 80;
 let interval;
@@ -94,24 +95,46 @@ function showQuestion(questionIndex) {
 }
 
 function selectAnswer(isCorrect) {
-    if (isCorrect) {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
-            showQuestion(currentQuestionIndex);
-        } else {
-            clearInterval(interval);
-            showEndScreen();
-        }
-    } else {
-        secondsLeft -= 10;
+    const feedbackEl = document.createElement("p");
+    feedbackEl.style.textAlign = "center";
+    feedbackEl.style.fontSize = "25px";
 
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
+    if (isCorrect) {
+        feedbackEl.textContent = "Correct!";
+        feedbackEl.style.color = "grey";
+    } else {
+        feedbackEl.textContent = "Wrong!";
+        feedbackEl.style.color = "grey";
+        secondsLeft -= 10;
+    }
+
+    const feedbackContainer = document.createElement("div");
+    feedbackContainer.style.marginTop = "10px";
+    feedbackContainer.appendChild(feedbackEl);
+
+    if (lastFeedbackContainer) {
+        lastFeedbackContainer.remove();
+    }
+
+    lastFeedbackContainer = feedbackContainer;
+
+    const answerButtonContainer = document.querySelector(".answer-buttons");
+    answerButtonContainer.insertAdjacentElement("afterend", feedbackContainer);
+
+    setTimeout(function () {
+        feedbackContainer.remove();
+    }, 500);
+
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        setTimeout(function () {
             showQuestion(currentQuestionIndex);
-        } else {
-            clearInterval(interval);
+        }, 400);
+    } else {
+        clearInterval(interval);
+        setTimeout(function () {
             showEndScreen();
-        }
+        }, 400);
     }
 }
 
