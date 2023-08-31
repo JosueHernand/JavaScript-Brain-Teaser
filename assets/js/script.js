@@ -8,11 +8,17 @@ const endContainer = document.getElementById("end");
 const finalScoreEl = document.getElementById("final-score");
 const initialsForm = document.getElementById("initials-form");
 const initialsInput = document.getElementById("initials");
+const highScoresContainer = document.getElementById("high-scores");
+const highScoresList = document.getElementById("high-scores-list");
+const goBackButton = document.getElementById("go-back");
+const clearScoresButton = document.getElementById("clear-scores");
 
 
 let lastFeedbackContainer = null
 let currentQuestionIndex = 0;
 let secondsLeft = 80;
+let highScores = [];
+let highScore = 0;
 let interval;
 
 const questions = [
@@ -102,6 +108,7 @@ function selectAnswer(isCorrect) {
     if (isCorrect) {
         feedbackEl.textContent = "Correct!";
         feedbackEl.style.color = "grey";
+        highScore += 10;
     } else {
         feedbackEl.textContent = "Wrong!";
         feedbackEl.style.color = "grey";
@@ -154,6 +161,55 @@ function showEndScreen() {
     quizContainer.style.display = "none";
     endContainer.style.display = "block";
     finalScoreEl.textContent = secondsLeft;
+
+    const viewHighScoresButton = document.querySelector("#view-high-scores");
+    if (!viewHighScoresButton && !highScoresContainer.style.display) {
+        const newButton = document.createElement("button");
+    }
 }
 
 initialsForm.addEventListener("submit", submitInitials);
+
+function showHighScores() {
+    endContainer.style.display = "none";
+    highScoresContainer.style.display = "block";
+    displayHighScores();
+}
+
+function submitInitials(event) {
+    event.preventDefault();
+
+    const initials = initialsInput.value.trim().toUpperCase();
+    if (initials === "") return;
+
+    const newScore = { initials, score: highScore };
+    highScores.push(newScore);
+
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+
+    showHighScores();
+}
+
+
+function displayHighScores() {
+    highScoresList.innerHTML = "";
+
+    for (let i = 0; i < highScores.length; i++) {
+        const score = highScores[i];
+        const listItem = document.createElement("li");
+        listItem.textContent = score.initials + ": " + score.score;
+        highScoresList.appendChild(listItem);
+    }
+}
+
+goBackButton.addEventListener("click", function () {
+    highScoresContainer.style.display = "none";
+    container.style.display = "block";
+    startButton.style.display = "block";
+});
+
+clearScoresButton.addEventListener("click", function () {
+    highScores = [];
+    localStorage.removeItem("highScores");
+    displayHighScores();
+});
