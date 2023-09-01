@@ -14,11 +14,23 @@ main {
     width: 600px;
 }
 
+#question {
+    font-size: 30px;
+}
+
 header {
     width: 100%;
     height: 100px;
-    border: 5px black solid;
     margin-bottom: 20px;
+}
+
+#view-high-scores {
+    position: absolute;
+    top: 50px;
+    left: 40px;
+    color: fuchsia;
+    font-weight: bold;
+    font-size: 23px;
 }
 
 .time {
@@ -27,12 +39,33 @@ header {
     float: right;
 }
 
+.container button {
+    padding: 12px 20px;
+    font-size: 18px;
+}
+
 button {
-    padding: 8px 12px;
-    font-size: 14px;
+    padding: 15px 30px;
+    font-size: 16px;
     cursor: pointer;
     display: block;
     margin: 0 auto;
+    border: none;
+    border-radius: 7px;
+    background-color: darkblue;
+    color: white;
+}
+
+button:hover {
+    background-color: rgb(210, 13, 224);
+    color: black;
+}
+
+.answer-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 #quiz {
@@ -41,4 +74,35 @@ button {
 
 #end {
     display: none;
+}
+
+#high-scores {
+    display: none;
+    font-size: 21px;
+}
+
+#initials-form button[type="submit"] {
+    margin-top: 10px;
+    padding: 12px 18px;
+    font-size: 15px;
+}
+
+#end {
+    font-size: 22px;
+}
+
+#high-scores button {
+    padding: 12px 18px;
+    font-size: 13px;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 99%;
+}
+
+#go-back, #clear-scores {
+    margin: 5px;
 }
